@@ -18,7 +18,7 @@ start:
 
         mov dl,08h      ;backspace
         int 21h
-        mov bx, 30h
+        mov bx, 80h
 
         @hold:
             nop
