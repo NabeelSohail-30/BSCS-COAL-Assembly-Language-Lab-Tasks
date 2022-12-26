@@ -1,0 +1,52 @@
+TITLE LAB8 ACT2
+.MODEL SMALL                            
+.STACK 100H
+.DATA  
+    NUMBERS DB 58H,37H,96H,45H,25H
+.CODE
+
+Nabeel PROC 
+    
+    MOV AX,@DATA          ;INITIALIZING DATA SEGMENT
+    MOV DS,AX
+    
+    MOV SI,OFFSET NUMBERS ;MOVING ALL VALUES TO SI
+    MOV CX,4              ;INITIALIZE CX TO 4
+    OUTERLOOP:            ;LABEL
+    PUSH CX
+    MOV AL,[SI]           ;STORE THE CONTENTS OF SI TO AL
+    MOV DI,SI             ;MOV SI TO DL
+    
+    INNERLOOP:            ;LABEL
+    INC DI                ;INCREMENT DI
+    CMP AL,[DI]           ;COMPARE ALL WITH THE VALUES OF NEXT LOCATION
+    JBE DONOT_SWAP        ;JUMP TO DONOT_SWAP IF BELOW OR EQUAL
+    
+    SWAP:                 ;ELSE SWAP THE VALUE
+    MOV DL,[DI]           ;STORE THE CONTENTS OF DI TO DL
+    MOV [DI],AL           ;STORE THE CONTENTS OF AL TO DI
+    MOV AL,DL             ;STORE THE CONTENTS OF DL TO AL
+    
+    DONOT_SWAP:           ;LABEL
+    LOOP INNERLOOP        ;INNER LOOP
+    MOV [SI],AL           ;STORE THE CONTENTS OF AL TO SI
+    POP CX
+    INC SI                ;INCREMENT SI
+    LOOP OUTERLOOP        ;OUTER LOOP
+    
+                          ;NOW DISPLAYING THE SORTED ARRAY IN ASSCENDING ORDER
+    MOV CX,5              ;INITIALIZE CX TO 5
+    MOV BX,OFFSET NUMBERS ;STORE SORTED ARRAY TO BX
+    
+    DISPLAY:              ;LABEL
+    MOV DL,[BX]           ;STORE THE CONTENTS OF BX TO DL
+    MOV AH,2H             ;PRINT CHARACTER FUNTION
+    INT 21H
+    INC BX                ;INCREMENT BX
+    LOOP DISPLAY          ;LOOP
+    
+    MOV AH,4CH            ;RETURN TO DOS 
+    INT 21H
+    
+Nabeel ENDP
+END Nabeel
