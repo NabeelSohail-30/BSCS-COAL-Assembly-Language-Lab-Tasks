@@ -1,0 +1,59 @@
+input_and_display macro str
+    mov ah, 09h
+    mov dx, offset str
+    int 21h
+
+    mov ah, 01h ; set up to read a single character from the keyboard
+    int 21h ; read the character
+    mov bl, al ; store the character in the specified variable
+
+    crlf
+
+    mov ah, 02h ; set up to display a single character
+    mov dl, bl ; load the character to be displayed
+    int 21h ; display the character    
+endm
+
+crlf macro
+    mov ah, 02h
+    mov dl, 0Ah ; load the line feed character
+    int 21h ; display the line feed character
+    mov dl, 0dh ; load the line feed character
+    int 21h ; display the line feed character
+endm
+
+exitToDos macro
+    mov ah, 4ch
+    int 21h
+endm
+
+; Macro to multiply two words by repeated addition
+mulByAdd macro num1, num2
+    ; Initialize variables
+    mov cx, num2
+    mov bx, num1
+    mov ax, 0
+
+    ; Loop to add num1 to num2 num2 times
+    mulLoop:
+        add ax, bx
+    loop mulLoop
+endm
+
+TOTAL_WAGES macro Salary, Overtime, Bonuses
+  mov ax, Salary
+  add ax, Overtime
+  add ax, Bonuses
+  aaa
+  or ax, 3030h
+endm
+
+displayWord macro myWord
+    mov bx, myWord
+    mov ah, 02h
+    mov dl, bh
+    int 21h
+    mov ah, 02h
+    mov dl, bl
+    int 21h
+endm
